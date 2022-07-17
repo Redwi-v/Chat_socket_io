@@ -1,0 +1,30 @@
+.login {
+  display: flex;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 10px;
+  }
+
+  .input_wraper {
+    margin-bottom: 10px;
+  }
+  .send_button {
+    background: #6af0e0;
+    border: none;
+    color: #fff;
+    font-family: inherit;
+    font-size: 19px;
+    row-gap: 700;
+    border-radius: 10px;
+    padding: 5px 0;
+    cursor: pointer;
+  }
+
+  .right_side {
+  }
+}
