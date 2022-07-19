@@ -1,37 +1,23 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import rooms from "../../API/rooms";
 import Form from "./Form/Form";
 import style from "./loginPage.module.scss";
+import RightSide from "./RightSide/RightSide";
 
-const LoginPage = (props) => {
-  const SendForm = (form) => {
-    console.log(form);
+const LoginPage = ({ login }) => {
+  const SendForm = async (form) => {
+    const userData = {
+      roomId: +form.roomId,
+      userName: form.userName,
+    };
+    await rooms.enter(userData);
+    login(userData);
   };
-
-  const [currentText, sendCurrentText] = useState("");
-  const index = useRef(0);
-  const message = "i love you my ledy";
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (message[index.current]) {
-        sendCurrentText(currentText + message[index.current]);
-        index.current += 1;
-      } else {
-        setTimeout(() => {
-          sendCurrentText("");
-          index.current = 0;
-        }, 1000);
-      }
-    }, 100);
-  }, [currentText]);
 
   return (
     <div className="container">
       <div className={style.login}>
         <Form sendForm={SendForm} />
-        <div className={style.right_side}>
-          <div className="massage">{currentText}</div>
-        </div>
+        <RightSide />
       </div>
     </div>
   );

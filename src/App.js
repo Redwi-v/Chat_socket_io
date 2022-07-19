@@ -1,23 +1,33 @@
-
-import { io } from 'socket.io-client';
-import LoginPageContainer from './components/LoginPage/LoginPageContainer';
-
-const socket = io('http://localhost:7777', {
-  reconnectionDelayMax: 10000,
-  auth: {
-    token: '123',
-  },
-  query: {
-    'my-key': 'my-value',
-  },
-});
+import LoginPageContainer from "./components/LoginPage/LoginPageContainer";
+import socket from "./API/socket";
+import { useEffect, useReducer } from "react";
+import reducer from "./reducer";
 
 function App(props) {
-    return (
-      <div className="App">
-        <LoginPageContainer />
-      </div>
-    );
+  const [state, dispatch] = useReducer(reducer, {
+    isAuth: false,
+    roomId: null,
+    userName: null,
+  });
+  const login = (userData) => {
+    dispatch({
+      type: "AUTHENTICATION",
+      payload: userData,
+    });
+    socket.emit("Room:join", userData);
+  };
+
+  useEffect(() => {
+    socket.on("Room:joined", (users) => {
+      console.log(users);
+    });
+  }, []);
+
+  return (
+    <div className="App">
+      {!state.isAuth && <LoginPageContainer login={login} />}
+    </div>
+  );
 }
 
 export default App;
