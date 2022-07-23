@@ -1,13 +1,17 @@
 export default (state, action) => {
   switch (action.type) {
-    case "AUTHENTICATION":
+    case 'AUTHENTICATION':
       return {
         ...state,
         isAuth: true,
         roomId: action.payload.roomId,
         userName: action.payload.userName,
       };
-
+    case 'SET_USERS':
+      return {
+        ...state,
+        conectedUsers: action.payload.conectedUsers,
+      };
     default:
       return state;
   }

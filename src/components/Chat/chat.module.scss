@@ -1,0 +1,86 @@
+body {
+  height: 100vh;
+}
+.chat {
+  background: rgb(106, 240, 224);
+  background: linear-gradient(
+    180deg,
+    rgba(106, 240, 224, 1) 24%,
+    rgba(106, 210, 240, 1) 100%
+  );
+  color: #fff;
+  height: 100vh;
+  display: flex;
+}
+
+.aside {
+  width: 300px;
+}
+
+.massages {
+  padding: 20px !important;
+}
+
+.right_side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+
+  background-color: rgb(228, 228, 228);
+  width: 100%;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.267);
+  border-radius: 20px 0 0 20px;
+}
+
+.massage {
+  background: rgb(106, 240, 224);
+  margin-bottom: 10px;
+  width: 55%;
+  padding: 10px 15px;
+  border-radius: 20px 20px 20px 3px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.089);
+}
+.my_massage {
+  margin-left: auto;
+  border-radius: 20px 20px 3px 20px;
+}
+.massage_text {
+  font-size: 14px;
+}
+
+.massage_data {
+  margin-bottom: 10px;
+  opacity: 0.8;
+  font-weight: 300;
+}
+
+.name {
+  margin-right: 20px;
+}
+
+.massage_form {
+  display: flex;
+  justify-content: center;
+}
+
+.textarea {
+  height: 80px;
+  width: 90%;
+  margin-bottom: 20px;
+  border: none;
+  outline: none;
+  min-height: 60px;
+  height: 60px;
+  padding: 15px 20px;
+  border-radius: 30px;
+  max-height: 200px;
+
+  scrollbar-width: thin;
+  resize: none;
+
+  &::-webkit-scrollbar {
+    width: 24px; /* ширина для вертикального скролла */
+    height: 8px;
+  }
+}

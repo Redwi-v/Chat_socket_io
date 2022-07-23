@@ -1,31 +1,52 @@
-import LoginPageContainer from "./components/LoginPage/LoginPageContainer";
-import socket from "./API/socket";
-import { useEffect, useReducer } from "react";
-import reducer from "./reducer";
+import LoginPageContainer from './components/LoginPage/LoginPageContainer';
+import socket from './API/socket';
+import { useEffect, useReducer } from 'react';
+import reducer from './reducer';
+import ChatContainer from './components/Chat/ChatContainer';
+import rooms from './API/rooms';
 
 function App(props) {
   const [state, dispatch] = useReducer(reducer, {
     isAuth: false,
     roomId: null,
     userName: null,
+    conectedUsers: [],
   });
-  const login = (userData) => {
+
+  const setConectedUsers = (payload) => {
+    return {
+      type: 'SET_USERS',
+      payload,
+    };
+  };
+
+  const login = async (userData) => {
+    socket.emit('Room:join', userData);
+    // rooms.enter(userData);
     dispatch({
-      type: "AUTHENTICATION",
+      type: 'AUTHENTICATION',
       payload: userData,
     });
-    socket.emit("Room:join", userData);
+    // dispatch(setConectedUsers({ conectedUsers }));
   };
 
   useEffect(() => {
-    socket.on("Room:joined", (users) => {
-      console.log(users);
+    console.log('movment');
+    socket.on('Room:movement', (users) => {
+      console.log('movment in call');
+
+      dispatch(setConectedUsers({ conectedUsers: users }));
     });
   }, []);
+  console.log(state);
 
   return (
     <div className="App">
-      {!state.isAuth && <LoginPageContainer login={login} />}
+      {state.isAuth ? (
+        <ChatContainer conectedUsers={state.conectedUsers} />
+      ) : (
+        <LoginPageContainer login={login} />
+      )}
     </div>
   );
 }

@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 class Rooms {
   enter(userData) {
-    return axios.post("/rooms", userData);
+    return axios.post('/rooms', userData);
   }
 }
 
