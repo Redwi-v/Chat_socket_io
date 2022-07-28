@@ -10,7 +10,17 @@ export default (state, action) => {
     case 'SET_USERS':
       return {
         ...state,
-        conectedUsers: action.payload.conectedUsers,
+        conectedUsers: [...action.payload.conectedUsers.users],
+      };
+    case 'SET_MESSAGES':
+      return {
+        ...state,
+        messages: [...state.messages, ...action.payload.messages],
+      };
+    case 'SET_SOCKET_ID':
+      return {
+        ...state,
+        socketId: action.socketId,
       };
     default:
       return state;

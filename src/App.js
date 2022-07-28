@@ -1,52 +1,82 @@
 import LoginPageContainer from './components/LoginPage/LoginPageContainer';
-import socket from './API/socket';
-import { useEffect, useReducer } from 'react';
+import { useReducer } from 'react';
 import reducer from './reducer';
 import ChatContainer from './components/Chat/ChatContainer';
-import rooms from './API/rooms';
+
+import { Routes, Route, useParams } from 'react-router-dom';
+import messages from './API/messages';
+const myStorage = window.localStorage;
 
 function App(props) {
   const [state, dispatch] = useReducer(reducer, {
-    isAuth: false,
-    roomId: null,
-    userName: null,
+    isAuth: myStorage.getItem('isAuth') || false,
+    roomId: myStorage.getItem('roomId') || null,
+    userName: myStorage.getItem('userName') || null,
+    socketId: '',
     conectedUsers: [],
+    messages: [],
   });
 
+  const setSocketId = (socketId) => {
+    dispatch({
+      type: 'SET_SOCKET_ID',
+      socketId,
+    });
+  };
+
   const setConectedUsers = (payload) => {
-    return {
+    const action = {
       type: 'SET_USERS',
       payload,
     };
+
+    dispatch(action);
+  };
+
+  const setMessages = (message) => {
+    dispatch({
+      type: 'SET_MESSAGES',
+      payload: { messages: message },
+    });
+  };
+
+  const getMessages = async () => {
+    const { data } = await messages.getMessages(state.roomId);
+    setMessages(data);
   };
 
   const login = async (userData) => {
-    socket.emit('Room:join', userData);
-    // rooms.enter(userData);
+    myStorage.setItem('userName', userData.userName);
+    myStorage.setItem('roomId', userData.roomId);
+    myStorage.setItem('isAuth', true);
+
     dispatch({
       type: 'AUTHENTICATION',
       payload: userData,
     });
-    // dispatch(setConectedUsers({ conectedUsers }));
   };
-
-  useEffect(() => {
-    console.log('movment');
-    socket.on('Room:movement', (users) => {
-      console.log('movment in call');
-
-      dispatch(setConectedUsers({ conectedUsers: users }));
-    });
-  }, []);
-  console.log(state);
 
   return (
     <div className="App">
-      {state.isAuth ? (
-        <ChatContainer conectedUsers={state.conectedUsers} />
-      ) : (
-        <LoginPageContainer login={login} />
-      )}
+      <Routes>
+        <Route
+          path="/"
+          element={<LoginPageContainer login={login} userData={state} />}
+        />
+        <Route
+          path={`/rooms/:id`}
+          element={
+            <ChatContainer
+              userData={state}
+              setConectedUsers={setConectedUsers}
+              getMessages={getMessages}
+              setMessages={setMessages}
+              setSocketId={setSocketId}
+            />
+          }
+        />
+        <Route path="*" element={<LoginPageContainer login={login} />} />
+      </Routes>
     </div>
   );
 }

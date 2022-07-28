@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 class Rooms {
-  enter(userData) {
-    return axios.post('/rooms', userData);
+  getMessages(roomId) {
+    return axios.post('/messages', { roomId });
   }
 }
 

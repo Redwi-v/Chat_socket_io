@@ -1,12 +1,12 @@
-import style from "../loginPage.module.scss";
+import style from '../loginPage.module.scss';
 
-import React, { useState } from "react";
-import Input from "../../../commons/Input/Input";
+import React, { useState } from 'react';
+import Input from '../../../commons/Input/Input';
 
 const Form = ({ sendForm }) => {
   const [form, setForm] = useState({
-    roomId: "",
-    userName: "",
+    roomId: localStorage.getItem('roomId') || '',
+    userName: '',
   });
   const [isLoading, setLoading] = useState(false);
   const changeRoomNameValue = (e) => {
@@ -43,7 +43,7 @@ const Form = ({ sendForm }) => {
       </div>
 
       <button className={style.send_button}>
-        {isLoading ? "enters..." : "enter"}
+        {isLoading ? 'enters...' : 'enter'}
       </button>
     </form>
   );

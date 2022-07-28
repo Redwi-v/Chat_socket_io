@@ -1,10 +1,11 @@
-const { time } = require('console');
 const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
 
 app.use(express.json());
+
+const PORT = process.env.PORT || 7777;
 
 const io = require('socket.io')(server, {
   cors: {
@@ -14,19 +15,15 @@ const io = require('socket.io')(server, {
 
 const rooms = new Map();
 
-app.get('/', (req, res) => {
-  res.json('hi');
-});
-
-app.post('/rooms', (req, res) => {
-  const { roomId, userName } = req.body;
-
-  console.log([...rooms]);
-  res.json([...rooms.get(roomId).get('users').values()]);
+app.post('/messages', (req, res) => {
+  const { roomId } = req.body;
+  const messages = rooms.get(roomId).get('messages');
+  res.json(messages);
 });
 
 io.on('connection', (socket) => {
-  socket.on('Room:join', ({ roomId, userName }) => {
+  // Join
+  socket.on('Room:join', ({ roomId, userName }, callback) => {
     socket.join(roomId);
 
     if (!rooms.has(roomId)) {
@@ -34,35 +31,48 @@ io.on('connection', (socket) => {
         roomId,
         new Map([
           ['users', new Map()],
-          ['massages', []],
+          ['messages', []],
         ])
       );
     }
 
+    //--return users
     const user = {
       name: userName,
+      socketId: socket.id,
     };
-
     rooms.get(roomId).get('users').set(socket.id, user);
-
     const users = [...rooms.get(roomId).get('users').values()];
+    const messages = [...rooms.get(roomId).get('messages').values()];
+    io.in(roomId).emit('Room:movement', { users, messages });
 
-    io.in(roomId).emit('Room:movement', users);
+    callback(user);
   });
 
+  //new Message
+  socket.on('Room:newMessage', ({ roomId, message }) => {
+    message.time = new Date().toLocaleTimeString().slice(0, 5);
+    message.socketId = socket.id;
+    message.id = rooms.get(roomId).get('messages').length;
+
+    rooms.get(roomId).get('messages').push(message);
+    io.in(roomId).emit('Room:newMessage', [message]);
+  });
+
+  //Disconnect
   socket.on('disconnect', () => {
     console.log('dis');
-
     rooms.forEach((value, roomId) => {
       if (value.get('users').delete(socket.id)) {
         const users = [...rooms.get(roomId).get('users').values()];
-        socket.to(roomId).emit('Room:movement', users);
+
+        socket.to(roomId).emit('Room:movement', { users });
       }
     });
   });
   console.log('a user connected');
 });
 
-server.listen(7777, () => {
+server.listen(PORT, () => {
   console.log('listening on *:7777');
 });

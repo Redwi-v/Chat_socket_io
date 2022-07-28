@@ -2,6 +2,7 @@ body {
   height: 100vh;
 }
 .chat {
+  display: flex;
   background: rgb(106, 240, 224);
   background: linear-gradient(
     180deg,
@@ -10,7 +11,41 @@ body {
   );
   color: #fff;
   height: 100vh;
-  display: flex;
+}
+
+@media (max-width: 617px) {
+  .chat {
+    flex-direction: column;
+    height: 100%;
+  }
+  body {
+    height: 100%;
+  }
+  .massages {
+    height: 90vh;
+  }
+  .massage {
+    width: 80% !important;
+  }
+
+  .contected_users {
+    max-width: 50vh;
+  }
+  .right_side {
+    border-radius: 20px 20px 0 0 !important;
+  }
+  .aside {
+    width: auto !important;
+  }
+}
+@media (max-width: 340px) {
+  .massage_data {
+    font-size: 14px;
+  }
+
+  .name {
+    font-size: 16px;
+  }
 }
 
 .aside {
@@ -19,6 +54,27 @@ body {
 
 .massages {
   padding: 20px !important;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgb(106, 240, 224) rgb(228, 228, 228);
+
+  /* полоса прокрутки (скроллбар) */
+  &::-webkit-scrollbar {
+    width: 10px; /* ширина для вертикального скролла */
+    height: 8px; /* высота для горизонтального скролла */
+    background-color: rgb(228, 228, 228);
+  }
+
+  /* ползунок скроллбара */
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(106, 240, 224);
+    border-radius: 9em;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(228, 228, 228);
+  }
 }
 
 .right_side {
@@ -60,6 +116,7 @@ body {
 }
 
 .massage_form {
+  position: relative;
   display: flex;
   justify-content: center;
 }
@@ -83,4 +140,27 @@ body {
     width: 24px; /* ширина для вертикального скролла */
     height: 8px;
   }
+}
+
+.roomId {
+  font-size: 18px;
+  padding: 10px;
+}
+
+.members {
+  font-size: 16px;
+  padding: 10px;
+  margin-top: -20px;
+}
+.user {
+  background: #fff;
+  color: rgb(2, 228, 228);
+  max-width: 200px;
+  margin: 10px 0 10px 10px;
+  padding: 10px 20px;
+  border-radius: 27px;
+}
+
+.contected_users {
+  list-style: none;
 }
