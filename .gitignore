@@ -8,7 +8,9 @@ server
 .firebaserc
 .Procfile
 firebase.json
+/server
 server
+.firebase
 
 # testing
 /coverage

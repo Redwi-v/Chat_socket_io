@@ -6,7 +6,7 @@ import { io } from 'socket.io-client';
 const ChatContainer = (props) => {
   const socket = useRef();
   useEffect(() => {
-    socket.current = io();
+    socket.current = io('https://my-chat112.herokuapp.com');
   }, []);
 
   const {
