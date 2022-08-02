@@ -53,6 +53,8 @@ body {
 }
 
 .massages {
+  display: flex;
+  flex-direction: column;
   padding: 20px !important;
   overflow-y: auto;
 
@@ -96,6 +98,7 @@ body {
   padding: 10px 15px;
   border-radius: 20px 20px 20px 3px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.089);
+  animation: message 1s;
 }
 .my_massage {
   margin-left: auto;
@@ -143,24 +146,55 @@ body {
 }
 
 .roomId {
-  font-size: 18px;
-  padding: 10px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .members {
   font-size: 16px;
-  padding: 10px;
-  margin-top: -20px;
+  padding: 10px 0 0 10px;
 }
 .user {
   background: #fff;
   color: rgb(2, 228, 228);
   max-width: 200px;
-  margin: 10px 0 10px 10px;
-  padding: 10px 20px;
+  margin: 10px 0 10px -18px;
+  padding: 10px 0 10px 34px;
   border-radius: 27px;
 }
 
 .contected_users {
   list-style: none;
+}
+
+.logout {
+  background: none;
+  border: none;
+  width: 35px;
+  margin-right: 10px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+.logout:hover {
+  opacity: 1;
+}
+
+.top_section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 19px;
+  padding: 10px 0 0 5px;
+}
+
+@keyframes message {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

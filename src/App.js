@@ -17,6 +17,18 @@ function App(props) {
     messages: [],
   });
 
+  const logout = () => {
+    localStorage.clear();
+    dispatch({
+      type: 'AUTHENTICATION',
+      payload: { userName: null, roomId: null, isAuth: false },
+    });
+    dispatch({
+      type: 'CLEAR_MESSAGES',
+    });
+    setConectedUsers({ conectedUsers: { users: [] } });
+  };
+
   const setSocketId = (socketId) => {
     dispatch({
       type: 'SET_SOCKET_ID',
@@ -45,10 +57,12 @@ function App(props) {
     setMessages(data);
   };
 
-  const login = async (userData) => {
+  const login = (userData, islogin = true) => {
+    console.log(userData);
     myStorage.setItem('userName', userData.userName);
     myStorage.setItem('roomId', userData.roomId);
-    myStorage.setItem('isAuth', true);
+    myStorage.setItem('isAuth', islogin);
+    userData.isAuth = true;
 
     dispatch({
       type: 'AUTHENTICATION',
@@ -61,7 +75,7 @@ function App(props) {
       <Routes>
         <Route
           path="/"
-          element={<LoginPageContainer login={login} userData={state} />}
+          element={<LoginPageContainer userData={state} login={login} />}
         />
         <Route
           path={`/rooms/:id`}
@@ -72,10 +86,14 @@ function App(props) {
               getMessages={getMessages}
               setMessages={setMessages}
               setSocketId={setSocketId}
+              logout={logout}
             />
           }
         />
-        <Route path="*" element={<LoginPageContainer login={login} />} />
+        <Route
+          path="*"
+          element={<LoginPageContainer userData={state} login={login} />}
+        />
       </Routes>
     </div>
   );

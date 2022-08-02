@@ -4,10 +4,12 @@ const http = require('http');
 const server = http.createServer(app);
 // const path = require('path');
 
-// app.use(express.json());
+app.use(express.json());
 // app.use(express.static(path.join(__dirname, '../build')));
 
 const PORT = process.env.PORT || 7777;
+
+// app.use(express.bodyParser());
 
 app.get('/', (req, res) => {
   res.json('ok');
@@ -22,6 +24,7 @@ const io = require('socket.io')(server, {
 const rooms = new Map();
 
 app.post('/messages', (req, res) => {
+  console.log(req.body);
   const { roomId } = req.body;
   const messages = rooms.get(roomId).get('messages');
   res.json(messages);
@@ -57,7 +60,6 @@ io.on('connection', (socket) => {
 
   //new Message
   socket.on('Room:newMessage', ({ roomId, message }) => {
-    message.time = new Date().toLocaleTimeString().slice(0, 5);
     message.socketId = socket.id;
     message.id = rooms.get(roomId).get('messages').length;
 

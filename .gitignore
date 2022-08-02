@@ -5,8 +5,10 @@
 /.pnp
 .pnp.js
 server
-
+.firebaserc
 .Procfile
+firebase.json
+server
 
 # testing
 /coverage

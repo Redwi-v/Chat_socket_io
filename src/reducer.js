@@ -3,7 +3,7 @@ export default (state, action) => {
     case 'AUTHENTICATION':
       return {
         ...state,
-        isAuth: true,
+        isAuth: action.payload.isAuth,
         roomId: action.payload.roomId,
         userName: action.payload.userName,
       };
@@ -16,6 +16,11 @@ export default (state, action) => {
       return {
         ...state,
         messages: [...state.messages, ...action.payload.messages],
+      };
+    case 'CLEAR_MESSAGES':
+      return {
+        ...state,
+        messages: [],
       };
     case 'SET_SOCKET_ID':
       return {

@@ -1,11 +1,22 @@
 import Chat from './Chat';
-import { useEffect } from 'react';
-import socket from '../../API/socket';
+import { useEffect, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
 const ChatContainer = (props) => {
-  const { setConectedUsers, userData, getMessages, setMessages, setSocketId } =
-    props;
+  const socket = useRef();
+  useEffect(() => {
+    socket.current = io();
+  }, []);
+
+  const {
+    setConectedUsers,
+    userData,
+    getMessages,
+    setMessages,
+    setSocketId,
+    logout,
+  } = props;
   const { userName, roomId, conectedUsers, messages, socketId } = userData;
 
   const params = useParams();
@@ -17,9 +28,10 @@ const ChatContainer = (props) => {
     const message = {
       user: userName,
       text: messageText,
+      time: new Date().toLocaleTimeString().slice(0, 5),
     };
 
-    socket.emit('Room:newMessage', { message: message, roomId });
+    socket.current.emit('Room:newMessage', { message: message, roomId });
   };
 
   const conectedNewUser = {
@@ -29,14 +41,15 @@ const ChatContainer = (props) => {
 
   useEffect(() => {
     if (userName && roomId) {
-      socket.emit('Room:join', conectedNewUser, (response) => {
+      socket.current.emit('Room:join', conectedNewUser, (response) => {
         setSocketId(response.socketId);
         getMessages();
       });
-      socket.on('Room:newMessage', (message) => {
+      socket.current.on('Room:newMessage', (message) => {
+        console.log(message);
         setMessages(message);
       });
-      socket.on('Room:movement', (users) => {
+      socket.current.on('Room:movement', (users) => {
         setConectedUsers({ conectedUsers: users });
       });
     }
@@ -53,6 +66,7 @@ const ChatContainer = (props) => {
       messages={messages}
       socketId={socketId}
       roomId={roomId}
+      logout={logout}
     />
   );
 };

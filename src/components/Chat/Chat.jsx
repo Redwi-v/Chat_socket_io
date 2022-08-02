@@ -1,8 +1,16 @@
 import { useEffect, useRef } from 'react';
 import MessForm from '../MessForm/MessForm';
 import style from './chat.module.scss';
+import exitIcont from '../../assets/icons/logout.png';
 
-const Chat = ({ conectedUsers, sendMessage, messages, socketId, roomId }) => {
+const Chat = ({
+  conectedUsers,
+  sendMessage,
+  messages,
+  socketId,
+  roomId,
+  logout,
+}) => {
   const chatList = useRef();
 
   const generateEmoji = () => {
@@ -25,7 +33,12 @@ const Chat = ({ conectedUsers, sendMessage, messages, socketId, roomId }) => {
       );
     });
 
+  console.log(messages);
+
   const renderedMassages = messages.map((message) => {
+    console.log(message.socketId + '   : message');
+    console.log(socketId + '   : socket');
+
     return (
       <li
         key={message.id}
@@ -49,9 +62,15 @@ const Chat = ({ conectedUsers, sendMessage, messages, socketId, roomId }) => {
   return (
     <div className={style.chat}>
       <aside className={style.aside}>
-        <h1 className={style.roomId}>
-          RoomId: <span>{roomId}</span>
-        </h1>
+        <div className={style.top_section}>
+          <button className={style.logout} onClick={() => logout()}>
+            <img src={exitIcont} alt="exit" />
+          </button>
+          <h1 className={style.roomId}>
+            RoomId: <span>{roomId}</span>
+          </h1>
+        </div>
+
         <h2 className={style.members}>
           Members: <span>{conectedUsers.length}</span>{' '}
         </h2>

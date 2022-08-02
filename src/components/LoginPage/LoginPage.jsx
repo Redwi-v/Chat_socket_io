@@ -7,7 +7,7 @@ const LoginPage = ({ login, userData }) => {
   const SendForm = (form) => {
     const userData = {
       roomId: form.roomId,
-      userName: form.userName,
+      userName: form.userName || `i'am venom`,
     };
     login(userData);
   };
