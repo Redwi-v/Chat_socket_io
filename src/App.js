@@ -58,7 +58,6 @@ function App(props) {
   };
 
   const login = (userData, islogin = true) => {
-    console.log(userData);
     myStorage.setItem('userName', userData.userName);
     myStorage.setItem('roomId', userData.roomId);
     myStorage.setItem('isAuth', islogin);

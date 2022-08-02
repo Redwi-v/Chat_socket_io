@@ -46,7 +46,6 @@ const ChatContainer = (props) => {
         getMessages();
       });
       socket.current.on('Room:newMessage', (message) => {
-        console.log(message);
         setMessages(message);
       });
       socket.current.on('Room:movement', (users) => {

@@ -33,12 +33,7 @@ const Chat = ({
       );
     });
 
-  console.log(messages);
-
   const renderedMassages = messages.map((message) => {
-    console.log(message.socketId + '   : message');
-    console.log(socketId + '   : socket');
-
     return (
       <li
         key={message.id}
