@@ -1,8 +1,8 @@
-import style from "../loginPage.module.scss";
-import { useEffect, useRef, useState } from "react";
+import style from '../loginPage.module.scss';
+import { useEffect, useRef, useState } from 'react';
 
-const TypingTextAnimation = ({ messages = ["hi"], callBack }) => {
-  const [currentText, sendCurrentText] = useState("");
+const TypingTextAnimation = ({ messages = ['hi'], callBack }) => {
+  const [currentText, sendCurrentText] = useState('');
   const [deley, setDeley] = useState(150);
   const index = useRef(0);
   const arrayIndex = useRef(0);
@@ -22,7 +22,7 @@ const TypingTextAnimation = ({ messages = ["hi"], callBack }) => {
         setTimeout(() => {
           setDeley(3000);
           callBack && callBack(messages[arrayIndex.current]);
-          sendCurrentText("");
+          sendCurrentText('');
           arrayIndex.current++;
           if (arrayIndex.current == messages.length) {
             arrayIndex.current = 0;

@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 7777;
 const cors = require('cors');
 app.use(
   cors({
-    origin: ['https://mini-chat-1e679.web.app'],
+    origin: ['https://mini-chat-1e679.web.app', 'http://localhost:3000'],
   })
 );
 
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'https://mini-chat-1e679.web.app',
+    origin: ['https://mini-chat-1e679.web.app', 'http://localhost:3000'],
   },
 });
 
