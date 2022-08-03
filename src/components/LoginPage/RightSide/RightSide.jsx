@@ -9,7 +9,6 @@ const RightSide = (props) => {
   useEffect(() => {
     if (renderedMassages.length > 4) {
       setTimeout(() => {
-        console.log(renderedMassages);
         setRenderedMassages([]);
         interationCount.current = 0;
       }, 1000);
@@ -27,8 +26,6 @@ const RightSide = (props) => {
     if (renderedMassages.length < 4) {
       setTimeout(() => {
         setRenderedMassages((massages) => {
-          console.log(interationCount.current);
-
           const componenMassage = renderMassageInMassages(
             mеssageAnswers[interationCount.current],
             massages.length,
