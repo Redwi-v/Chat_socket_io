@@ -2,7 +2,7 @@ import axios from 'axios';
 
 class Rooms {
   getMessages(roomId) {
-    return axios.post('https://my-chat112.herokuapp.com/messages', { roomId });
+    return axios.post('http://localhost:7777/messages', { roomId });
   }
 }
 
