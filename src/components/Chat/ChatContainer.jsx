@@ -6,7 +6,7 @@ import { io } from 'socket.io-client';
 const ChatContainer = (props) => {
   const socket = useRef();
   useEffect(() => {
-    socket.current = io('http://localhost:7777');
+    socket.current = io('https://chat-api-4tr3.onrender.com');
   }, []);
 
   const {
